@@ -4,12 +4,18 @@
         <title>LXC Web Management</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
     </head>
     <body>
     <div class="page-header">
-        <h1><a href="/">LXC Web Management</a></h1>
+        {% if user.is_authenticated %}
+            <a href="{% url 'containers_list' %}" class="top-menu">Show all<span class="glyphicon glyphicon-list"></span></a>
+            <a href="{% url 'container_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        {% endif %}
+            <h1><span class="glyphicon glyphicon-leaf"></span><a href="/">LXC Web Management</a></h1>
+
     </div>
     <div class="content container">
         <div class="row">
