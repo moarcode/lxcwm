@@ -1,0 +1,15 @@
+{% extends 'containers/base.html' %}
+
+{% block content %}
+        <div class="container">
+            <p>ID: {{ container.id }}</p>
+            <p>Name: {{ container.name }} </p>
+            <p>Mem: {{ container.mem }} </p>
+            <p>CPU: {{ container.cpu }} </p>
+            <p>IP: {{ container.net_ip }} </p>
+            <p>Netmask: {{ container.net_mask }} </p>
+            <p>Interface: {{ container.net_if }} </p>
+            <p>OS: {{ container.os_type }} </p>
+            <p>OS ver: {{ container.os_ver }} </p>
+        </div>
+{% endblock %}
