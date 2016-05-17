@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>LXC Web Management</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    </head>
+    <body>
+    <div class="page-header">
+        <h1><a href="/">LXC Web Management</a></h1>
+    </div>
+
+{% for container in containers %}
+    <div class="container">
+        <p>ID: {{ container.id }}</p>
+        <h1><a href="">{{ container.name }}</a></h1>
+        <p>{{ container.os_type|linebreaks }}</p>
+    </div>
+{% endfor %}
+    </body>
+</html>

@@ -1,0 +1,6 @@
+.git/
+myvenv/
+*.sqlite3
+*.pyc
+__pycache__/*
+
