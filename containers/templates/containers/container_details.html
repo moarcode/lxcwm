@@ -1,7 +1,7 @@
 {% extends 'containers/base.html' %}
 
 {% block content %}
-<a class="btn btn-default" href="{% url 'container_edit' pk=container.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+<a class="btn btn-default" href="{% url 'container_edit' pk=container.pk %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
         <div class="container">
             <p>ID: {{ container.id }}</p>
             <p>Name: {{ container.name }} </p>
@@ -14,3 +14,4 @@
             <p>OS ver: {{ container.os_ver }} </p>
         </div>
 {% endblock %}
+

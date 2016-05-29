@@ -2,10 +2,13 @@ from django.shortcuts import render, get_object_or_404
 from .models import Container
 from .forms import PostForm
 from django.shortcuts import redirect # redirect po dodaniu kontenera
+import lxc
 
 def containers_list(request):
     containers = Container.objects.all()
-    return render(request, 'containers/containers_list.html', {'containers': containers})
+    for k in lxc.list_containers(as_object=True):
+        cont=k 
+    return render(request, 'containers/containers_list.html', {'containers': containers, 'cont': cont})
 
 def container_details(request, pk):
     container = get_object_or_404(Container, pk=pk)
@@ -16,8 +19,6 @@ def container_new(request):
         form = PostForm(request.POST)
         if form.is_valid():
             container = form.save(commit=False)
-            #container.author = request.user
-            #container.published_date = timezone.now()
             container.save()
             return redirect('container_details', pk=container.pk)
     else:
@@ -38,3 +39,8 @@ def container_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'containers/container_edit.html', {'form': form})
 
+def container_start(request, pk):
+    c = lxc.Container("test")
+    c.start()
+    container = get_object_or_404(Container, pk=pk)
+    return redirect('container_action', pk=container.pk)
