@@ -5,7 +5,9 @@
             <p>ID: {{ container.id }}</p>
             <h1><a href="{% url 'container_details' pk=container.pk %}">{{ container.name }}</a></h1>
             <p>{{ container.os_type|linebreaks }}</p>
-	    <p>TESTOWY:{{ cont.name }} </p>
+            {% for k in cont %}
+	    <p>TESTOWY:{{ k.name }} </p>
+        {% endfor %}
         </div>
     {% endfor %}
 {% endblock content %}

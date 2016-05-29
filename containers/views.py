@@ -3,11 +3,24 @@ from .models import Container
 from .forms import PostForm
 from django.shortcuts import redirect # redirect po dodaniu kontenera
 import lxc
+import mgmt_cont
+
+def mgmt_list():
+    cont = []
+    for k in lxc.list_containers(as_object=True):
+        cont.append(k)
+    return cont
+        
 
 def containers_list(request):
+    cont = []
     containers = Container.objects.all()
     for k in lxc.list_containers(as_object=True):
-        cont=k 
+        cont.append(k)
+    z = Container.objects.get(id=1)
+    x = lxc.Container("test")
+    z.name = x.state
+    z.save()
     return render(request, 'containers/containers_list.html', {'containers': containers, 'cont': cont})
 
 def container_details(request, pk):
@@ -31,10 +44,15 @@ def container_edit(request, pk):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             container = form.save(commit=False)
-            #post.author = request.user
-            #post.published_date = timezone.now()
+            #z = Container.objects.get(id=pk)
+            #x = lxc.Container("test")
+            #z.name = x.name
+            #z.name = "test"
+            #z.net_ip = x.get_ips(timeout=9)[0]
             post.save()
-            return redirect('container_detail', pk=container.pk)
+            mgmt_cont.sync(pk)
+            #z.save()
+            return redirect('container_details', pk=container.pk)
     else:
         form = PostForm(instance=post)
     return render(request, 'containers/container_edit.html', {'form': form})
