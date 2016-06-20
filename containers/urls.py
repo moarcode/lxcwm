@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^container/(?P<pk>[0-9]+)/$', views.container_details, name='container_details'),
     url(r'^container/new/$', views.container_new, name='container_new'),
     url(r'^container/(?P<pk>[0-9]+)/edit/$', views.container_edit, name='container_edit'),
+    url(r'^container/(?P<pk>[0-9]+)/start/$', views.container_start, name='container_start'),
 ]
