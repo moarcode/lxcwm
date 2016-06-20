@@ -3,6 +3,7 @@ from .models import Container
 from .forms import PostForm
 from django.shortcuts import redirect # redirect po dodaniu kontenera
 import lxc
+import os
 import mgmt_cont
 
 def mgmt_list():
@@ -13,25 +14,25 @@ def mgmt_list():
         
 
 def containers_list(request):
-    cont = []
     containers = Container.objects.all()
-    for k in lxc.list_containers(as_object=True):
-        cont.append(k)
     for g in Container.objects.all():
-        #z = Container.objects.get(g.name)
-        #x = lxc.Container(g.name)
-        #x = lxc.Container(g.name)
         c = lxc.Container(g.name)
-        g.os_type = c.state
+        g.status = c.state
         if not c.defined:
-            g.os_type = "UNKNOWN"
-        #g.name = x.state
+            g.status = "UNKNOWN"
         g.save()
-        print g.name
-    return render(request, 'containers/containers_list.html', {'containers': containers, 'cont': cont})
+    return render(request, 'containers/containers_list.html', {'containers': containers})
 
 def container_details(request, pk):
     container = get_object_or_404(Container, pk=pk)
+    c = lxc.Container(container.name)
+    if c.running:
+        container.net_ip = c.get_ips()[0]
+        container.net_if = c.get_interfaces()[0]
+        #name = c.name
+        #print os.system("lxc-attach -n 'name' ifconfig eth0 | grep Mask | cut -d\":\" -f4") 
+        #container.os_ver = c.attach_wait(lxc.attach_run_command, ["lsb_release -r|awk'{print", "$2}'"])
+        #print c.attach_wait(lxc.attach_run_command, ["lsb_release", "-r", "|awk", "'{print", "$2}'"])
     return render(request, 'containers/container_details.html', {'container': container})
 
 def container_new(request):
@@ -39,6 +40,8 @@ def container_new(request):
         form = PostForm(request.POST)
         if form.is_valid():
             container = form.save(commit=False)
+            c = lxc.Container(container.name)
+            c.create("download", 0,{"dist": "ubuntu", "release": "trusty","arch": "amd64"})
             container.save()
             return redirect('container_details', pk=container.pk)
     else:

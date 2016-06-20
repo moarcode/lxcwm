@@ -11,6 +11,7 @@ class Container(models.Model):
     cpu = models.IntegerField()
     os_type = models.TextField()
     os_ver = models.TextField()
+    status = models.TextField(default="UNKNOWN")
 
     def create(self):
         self.create_date = timezone.now()
