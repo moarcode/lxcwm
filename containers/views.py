@@ -17,10 +17,17 @@ def containers_list(request):
     containers = Container.objects.all()
     for k in lxc.list_containers(as_object=True):
         cont.append(k)
-    z = Container.objects.get(id=1)
-    x = lxc.Container("test")
-    z.name = x.state
-    z.save()
+    for g in Container.objects.all():
+        #z = Container.objects.get(g.name)
+        #x = lxc.Container(g.name)
+        #x = lxc.Container(g.name)
+        c = lxc.Container(g.name)
+        g.os_type = c.state
+        if not c.defined:
+            g.os_type = "UNKNOWN"
+        #g.name = x.state
+        g.save()
+        print g.name
     return render(request, 'containers/containers_list.html', {'containers': containers, 'cont': cont})
 
 def container_details(request, pk):
