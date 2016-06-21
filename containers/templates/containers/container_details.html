@@ -1,7 +1,6 @@
 {% extends 'containers/base.html' %}
 
 {% block content %}
-<a class="btn btn-default" href="{% url 'container_edit' pk=container.pk %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
         <div class="container">
             <p>ID: {{ container.id }}</p>
             <p>Name: {{ container.name }} </p>
@@ -12,6 +11,18 @@
             <p>Interface: {{ container.net_if }} </p>
             <p>OS: {{ container.os_type }} </p>
             <p>OS ver: {{ container.os_ver }} </p>
+            {% if container.status == "RUNNING" %}
+                <p class="btn btn-success">STATUS: {{ container.status }} </p>
+            {% elif container.status == "STOPPED"  %}
+                <p class="btn btn-danger">STATUS: {{ container.status }} </p>
+            {% elif container.status == "UNKNOWN"  %}
+                <p class="btn btn-warning">STATUS: {{ container.status }} </p>
+            {% endif %}
         </div>
+        <br>
+
+        <a class="btn btn-success" href="{% url 'container_start' pk=container.pk %}">Start<span class="glyphicon glyphicon-play"></span></a>
+        <a class="btn btn-danger" href="{% url 'container_stop' pk=container.pk %}">Stop<span class="glyphicon glyphicon-stop"></span></a>
+        <a class="btn btn-default" href="{% url 'container_edit' pk=container.pk %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
 {% endblock %}
 

@@ -12,13 +12,23 @@ def mgmt_list():
         cont.append(k)
     return cont
 
-def container_start(request, pk):
+def container_stop(request, pk):
+    print pk
     container = get_object_or_404(Container, pk=pk)
+    print "STOPPED!!!"
+    c = lxc.Container(container.name)
+    if c.running:
+        c.stop()
+    return redirect('container_stop', pk=container.pk)
+
+def container_start(request, pk):
+    print pk
+    container = get_object_or_404(Container, pk=pk)
+    print "STARTED!!!"
     c = lxc.Container(container.name)
     if not c.running:
         c.start()
-        c.wait("RUNNING", 3)
-    return render(request, 'containers/container_details.html', {'container': container})
+    return redirect('container_start', pk=container.pk)
 
 def containers_list(request):
     containers = Container.objects.all()
@@ -73,9 +83,3 @@ def container_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'containers/container_edit.html', {'form': form})
-
-#def container_start(request, pk):
-#    c = lxc.Container("test")
-#    c.start()
-#    container = get_object_or_404(Container, pk=pk)
-#    return redirect('container_action', pk=container.pk)

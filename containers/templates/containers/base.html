@@ -16,6 +16,11 @@
         {% endif %}
             <h1><span class="glyphicon glyphicon-leaf"></span><a href="/">LXC Web Management</a></h1>
 
+        <ul class="nav nav-pills">
+              <li role="presentation" class="active"><a href="{% url 'containers_list' %}">Show all<span class="glyphicon glyphicon-list"></span></a></li>
+              <li role="presentation" class="active"><a href="{% url 'container_new' %}"><span class="glyphicon glyphicon-plus">Create</span></a></li>
+                  <li role="presentation"><a href="#">Messages</a></li>
+        </ul>
     </div>
     <div class="content container">
         <div class="row">
