@@ -1,10 +1,12 @@
 {% extends 'containers/base.html' %}
 {% block content %}
     {% for container in containers %}
-        <div class="container">
-            <p>ID: {{ container.id }}</p>
-            <h1><a href="{% url 'container_details' pk=container.pk %}">{{ container.name }}</a></h1>
-            <p>{{ container.os_type|linebreaks }}</p>
-        </div>
+		<ul class="nav nav-pills nav-stacked nav-cnt">
+		  <li role="presentation" class="active"><a href="{% url 'container_details' pk=container.pk %}">{{ container.name }}</a></li>
+		  <li role="presentation"><a>Status: {{ container.status }}</a></li>
+		</ul>
+
     {% endfor %}
+        <embed type="image/svg+xml" src="./static/bar_chart.svg" width="500"/>
+
 {% endblock content %}

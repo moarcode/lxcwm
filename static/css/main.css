@@ -1,7 +1,22 @@
+.nav-cnt {
+width: 30%;
+}
+
+.img-logo {
+width:50px;
+height:50px;
+padding: 0px;
+}
+
 .page-header {
-    background-color: #080;
-    margin-top: 0;
+    background-color: #428bca;
+    margin-top: 0px;
     padding: 1px;
+}
+
+.btn {
+    border-radius: 1px;
+    box-shadow: 0 3px 0 0 #007299;
 }
 
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
@@ -38,6 +53,7 @@ h1, h2, h3, h4 {
     float: right;
     font-size: 12pt;
     margin-right: 20px;
+    margin-top: 0px;
 }
 
 .glyphicon {

@@ -5,12 +5,27 @@ from django.shortcuts import redirect # redirect po dodaniu kontenera
 import lxc
 import os
 import mgmt_cont
+import pygal   
+from collections import Counter
 
 def mgmt_list():
     cont = []
     for k in lxc.list_containers(as_object=True):
         cont.append(k)
     return cont
+
+def container_delete(request, pk):
+    print pk
+    container = get_object_or_404(Container, pk=pk)
+    print container
+    print "DELETED!!!"
+    c = lxc.Container(container.name)
+    print c.name
+    if c.running:
+        c.stop()
+    if c.destroy():
+        Container.objects.filter(name=container.name).delete()
+    return redirect('container_delete', pk=container.pk)
 
 def container_stop(request, pk):
     print pk
@@ -32,12 +47,25 @@ def container_start(request, pk):
 
 def containers_list(request):
     containers = Container.objects.all()
+    chart = pygal.Pie()
+    cnt = {}
     for g in Container.objects.all():
         c = lxc.Container(g.name)
+        cnt[g.name] = g.status
         g.status = c.state
         if not c.defined:
             g.status = "UNKNOWN"
         g.save()
+    print cnt.values()
+    print type(Counter(cnt.values())['RUNNING'])
+    val = Counter(cnt.values())['RUNNING']
+    chart.add('RUNNING', val)
+    val1 = Counter(cnt.values())['STOPPED']
+    chart.add('STOPPED', val1)
+    val2 = Counter(cnt.values())['UNKNOWN']
+    chart.add('UNKNOWN', val2)
+    #chart.add('RUNNING', 1)
+    chart.render_to_file('./static/bar_chart.svg')
     return render(request, 'containers/containers_list.html', {'containers': containers})
 
 def container_details(request, pk):

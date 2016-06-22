@@ -22,7 +22,8 @@
         <br>
 
         <a class="btn btn-success" href="{% url 'container_start' pk=container.pk %}">Start<span class="glyphicon glyphicon-play"></span></a>
-        <a class="btn btn-danger" href="{% url 'container_stop' pk=container.pk %}">Stop<span class="glyphicon glyphicon-stop"></span></a>
+        <a class="btn btn-warning" href="{% url 'container_stop' pk=container.pk %}">Stop<span class="glyphicon glyphicon-stop"></span></a>
         <a class="btn btn-default" href="{% url 'container_edit' pk=container.pk %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-danger" href="{% url 'container_delete' pk=container.pk %}">Delete<span class="glyphicon glyphicon-trash"></span></a>
 {% endblock %}
 
